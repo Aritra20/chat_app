@@ -9,7 +9,18 @@ var server = http.createServer(app);
 var io = socketIO(server);
 app.use(express.static(publicPath));
 io.on("connection",function(socket){
-	console.log("new user");
+	console.log("new user connected");
+	socket.emit("newMessage",{
+		from:"Aritra",
+		text:"hey what is going on.",
+		createAt:123
+	});
+	socket.on("createMessage",function(message){
+		console.log("createMessage",message);
+	});
+socket.on("disconnect",function(){
+	console.log("user disconnected");
+});
 });
 server.listen(port,function(){
 	console.log("port")
